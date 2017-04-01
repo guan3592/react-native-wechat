@@ -1,7 +1,7 @@
 "use strict";
 
 import { DeviceEventEmitter, NativeModules } from 'react-native';
-import promisify from 'es6-promisify';
+import Promise from 'bluebird';
 import { EventEmitter } from 'events';
 
 let isAppRegistered = false;
@@ -29,7 +29,7 @@ function wrapRegisterApp(nativeFunc) {
   if (!nativeFunc) {
     return undefined;
   }
-  const promisified = promisify(nativeFunc, translateError);
+  const promisified = Promise.promisify(nativeFunc, translateError);
   return (...args) => {
     if (isAppRegistered) {
       return Promise.reject(new Error('App is already registered.'));
